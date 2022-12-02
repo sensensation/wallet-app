@@ -30,4 +30,4 @@ class CustomUser(AbstractUser, PermissionsMixin):
    is_active = models.BooleanField(default=True)
 
    def __str__(self):
-        return self.email
+        return f"{self.email} - {self.first_name} {self.last_name}"
