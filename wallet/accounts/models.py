@@ -1,15 +1,15 @@
+from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
-
 from .managers import CustomUserManager
+
 
 
 import uuid #unique ID`es
 
 
-class CustomUser(AbstractUser):
+class CustomUser(AbstractUser, PermissionsMixin):
    """
    Creates a new users
    """
@@ -25,6 +25,9 @@ class CustomUser(AbstractUser):
    verified = models.BooleanField(_("verified"), default=False)
 
    objects = CustomUserManager()
+
+   is_staff = models.BooleanField(default=False)
+   is_active = models.BooleanField(default=True)
 
    def __str__(self):
         return self.email
