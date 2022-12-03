@@ -1,8 +1,10 @@
 from .serializers import UserRegistrationSerializer, UserListSerializer
-from rest_framework import viewsets, generics
+from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.request import Request
+
 
 
 from .models import CustomUser
@@ -17,9 +19,6 @@ def register(request):
    else:
       return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-def login(request):
-   serializer = UserLoginSerializer(data=request.data)
 
 class UserAPIList(generics.ListCreateAPIView):
    """

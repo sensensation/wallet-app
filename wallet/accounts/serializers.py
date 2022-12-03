@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
+
 from .models import CustomUser
-User = get_user_model()
+
 
 
 class UserListSerializer(serializers.ModelSerializer):
@@ -15,7 +15,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
       fields = ('__all__')
 
    def create(self, validated_data):
-        user = User.objects.create(
+        user = CustomUser.objects.create(
             email = validated_data['email'],
             password = validated_data['password'],
             date_of_birth = validated_data['date_of_birth'],
@@ -26,6 +26,3 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
-
-class UserLoginSerializer(serializers.ModelSerializer):
-   pass
