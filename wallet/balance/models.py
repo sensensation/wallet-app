@@ -26,3 +26,9 @@ class Wallet(models.Model):
    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
 
    balance = models.DecimalField(max_digits=20, decimal_places=2, default=0)
+
+def validate_wallets_amount(obj):
+   #  if (Wallet.objects.count() > 0 and
+   #          obj.id != model.objects.get().id):
+   #      raise ValidationError("Can only create 1 %s instance" % model.__name__)
+   print(Wallet.objects)
