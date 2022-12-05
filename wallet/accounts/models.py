@@ -6,7 +6,8 @@ from .managers import CustomUserManager
 
 
 
-import uuid #unique ID`es
+# import uuid #unique ID`es
+   # uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
 
 class CustomUser(AbstractUser, PermissionsMixin):
@@ -17,12 +18,13 @@ class CustomUser(AbstractUser, PermissionsMixin):
    REQUIRED_FIELDS = []
 
    username = None
-   uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+   id = models.AutoField(primary_key=True)
    email = models.EmailField(_("email address"), blank=False, unique=True)
    first_name = models.CharField(_("first name"), max_length=150, blank=False)
    last_name = models.CharField(_("last name"), max_length=150, blank=False)
    date_of_birth = models.DateField(_("date of birth"), max_length=150, blank=False)
-   verified = models.BooleanField(_("verified"), default=False)
+   wallets_amount = models.IntegerField(_("wallets_amount"), default=0)
 
    objects = CustomUserManager()
 
