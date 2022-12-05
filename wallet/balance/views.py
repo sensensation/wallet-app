@@ -1,16 +1,9 @@
 from rest_framework import viewsets
 from .models import CustomUser, Wallet
-from rest_framework import permissions
+from rest_framework import permissions, status
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from balance.serializers import WalletSerializer
-# Create your views here.
-
-# class IsAuthorOrReadOnly(permissions.BasePermission):
-
-#     def has_object_permission(self, request, view, obj):
-#         if request.method in permissions.SAFE_METHODS:
-#             return True
-#         return obj.author == request.user
 
 
 class WalletViewSet(viewsets.ModelViewSet):
@@ -22,6 +15,19 @@ class WalletViewSet(viewsets.ModelViewSet):
             return Wallet.objects.all()
         else:
             return Wallet.objects.filter(user=self.request.user)
+    
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer) #SAVE METHOD
+        if serializer.validated_data['currency'] == "RUB":
+            serializer.validated_data['balance'] = 100
+            serializer.save()
+        else:
+            serializer.validated_data['balance'] = 3
+            serializer.save()
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def perform_create(self, serializer):
         serializer.save()
