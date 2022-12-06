@@ -4,15 +4,20 @@ from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from balance.serializers import WalletSerializer
+from rest_framework.serializers import ValidationError
+from accounts.serializers import UserRegistrationSerializer
 
-from django.db.models import Count  
 
 class WalletViewSet(viewsets.ModelViewSet):
     serializer_class = WalletSerializer
     permission_classes = [IsAuthenticated]
 
-    # user_wallets = CustomUser.objects.annotate(total_wallets = Count('wallets_amount'))
-    # print('NIGGERS NIGGERS NIGGERS NIGGERS:',user_wallets)
+    # print(getattr(CustomUser.objects.get(id=3), "wallets_amount")) #Так, вот эта вот хуйня она работает так:
+                                                                #Дает значение атрибута wallets_amount. Проблема: как теперь передавать туда постоянно текущего пользователя?
+
+    # print(getattr(CustomUser.objects.get(id=serializer.data['user']), "wallets_amount")) #как взять wallets amount 
+    #                                                                                       у  конкретного юзера
+    #теперь нахуй новая проблема: почему этот кал request.data дает кортеж блядь и сравнивает его с интовым числом wallets_amount? как сука из кортежа вытащить значения???? 
 
     def get_queryset(self):
         if self.request.method == 'GET':
@@ -22,18 +27,25 @@ class WalletViewSet(viewsets.ModelViewSet):
     
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
+        
         serializer.is_valid(raise_exception=True)
+        
         self.perform_create(serializer) #SAVE METHOD
-       
-        if serializer.validated_data['currency'] == "RUB":
-                serializer.validated_data['balance'] = 100
-                serializer.save()
-        else:
-                serializer.validated_data['balance'] = 3
-                serializer.save()   
+        self.validate_gift(request)
         headers = self.get_success_headers(serializer.data)
-        # print(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+        
+    def validate_gift(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if serializer.validated_data['currency'] == "RUB":
+            serializer.validated_data['balance'] = 100
+            serializer.save()
+        else:
+            serializer.validated_data['balance'] = 3
+            serializer.save()  
+            
 
     def perform_create(self, serializer):
         serializer.save()
