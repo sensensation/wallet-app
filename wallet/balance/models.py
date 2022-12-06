@@ -8,8 +8,8 @@ from shortuuid.django_fields import ShortUUIDField
 class Wallet(models.Model):
 
    CARDS_TYPE_CHOICE = (
-      (1, 'VISA'),
-      (2, 'MasterCard'),
+      ('VISA', 1),
+      ('MasterCard', 2),
    )
    
    CURRENCY_CHOICE = (
@@ -19,7 +19,7 @@ class Wallet(models.Model):
    )
 
    uid = ShortUUIDField(primary_key=True, length=8, max_length=8)
-   card_type = models.IntegerField(choices=CARDS_TYPE_CHOICE, default=1)
+   card_type = models.CharField(choices=CARDS_TYPE_CHOICE, default='VISA', max_length=20)
    currency = models.CharField(choices=CURRENCY_CHOICE, max_length=3)
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
@@ -27,8 +27,3 @@ class Wallet(models.Model):
 
    balance = models.DecimalField(max_digits=20, decimal_places=2, default=0)
 
-def validate_wallets_amount(obj):
-   #  if (Wallet.objects.count() > 0 and
-   #          obj.id != model.objects.get().id):
-   #      raise ValidationError("Can only create 1 %s instance" % model.__name__)
-   print(Wallet.objects)
