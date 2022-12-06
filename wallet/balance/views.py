@@ -12,13 +12,6 @@ class WalletViewSet(viewsets.ModelViewSet):
     serializer_class = WalletSerializer
     permission_classes = [IsAuthenticated]
 
-    # print(getattr(CustomUser.objects.get(id=3), "wallets_amount")) #Так, вот эта вот хуйня она работает так:
-                                                                #Дает значение атрибута wallets_amount. Проблема: как теперь передавать туда постоянно текущего пользователя?
-
-    # print(getattr(CustomUser.objects.get(id=serializer.data['user']), "wallets_amount")) #как взять wallets amount 
-    #                                                                                       у  конкретного юзера
-    #теперь нахуй новая проблема: почему этот кал request.data дает кортеж блядь и сравнивает его с интовым числом wallets_amount? как сука из кортежа вытащить значения???? 
-
     def get_queryset(self):
         if self.request.method == 'GET':
             return Wallet.objects.all()
@@ -31,21 +24,15 @@ class WalletViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         
         self.perform_create(serializer) #SAVE METHOD
-        self.validate_gift(request)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-        
-    def validate_gift(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        self.validate_gift(request=)
         if serializer.validated_data['currency'] == "RUB":
             serializer.validated_data['balance'] = 100
             serializer.save()
         else:
             serializer.validated_data['balance'] = 3
             serializer.save()  
-            
-
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        
     def perform_create(self, serializer):
         serializer.save()
