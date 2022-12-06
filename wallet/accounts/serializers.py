@@ -19,6 +19,8 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             email = validated_data['email'],
             password = validated_data['password'],
             date_of_birth = validated_data['date_of_birth'],
+            first_name = validated_data['first_name'],
+            last_name = validated_data['last_name'],
         )
 
         user.set_password(validated_data['password'])
@@ -26,3 +28,4 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+   
