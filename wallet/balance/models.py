@@ -1,8 +1,6 @@
-from django.db import models, transaction
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 from accounts.models import CustomUser
-from django.utils.crypto import get_random_string
-import uuid
 from shortuuid.django_fields import ShortUUIDField
 
 class Wallet(models.Model):
