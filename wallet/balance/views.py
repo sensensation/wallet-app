@@ -72,12 +72,20 @@ def wallet_by_user(request):
 @api_view(['DELETE'])
 def delete_user_wallet(request, wallet_uid):
     """
-    http://127.0.0.1:8000/wallets/(uid wallet) to delete
+    http://127.0.0.1:8000/wallets/(uid wallet) to delete certain wallet
     """
     wallet = Wallet.objects.get(pk=wallet_uid)
+    wallet_uid_to_delete = wallet_uid #shows in response which wallet was deleted
+    id_of_cur_user = request.user #helps to identify ID of current user. Needs to reduce wallets amound in DB
+    
+    current_user = CustomUser.objects.get(id=id_of_cur_user.id)
+    quantity = current_user.wallets_amount
     if wallet.user == request.user:
         wallet.delete()
-        return Response('wallet deleted')
+        quantity -= 1
+        current_user.wallets_amount = quantity
+        current_user.save()
+        return Response({'Wallet UID:':wallet_uid_to_delete, 'Status:':'DELETED'})
     else:
         return Response('Not yours wallet')
     

@@ -9,6 +9,8 @@ from rest_framework.response import Response
 from rest_framework import views
 from transactions.models import Transaction
 from typing import OrderedDict
+from rest_framework.decorators import api_view
+from django.db.models import Q
 
 class TransactionAPIView(views.APIView):
    permission_classes = [IsAuthenticated]
@@ -17,19 +19,23 @@ class TransactionAPIView(views.APIView):
    def post(self, request):
       """
       Summing up banch of methods to create a transaction
+      http://127.0.0.1:8000/make_transaction [POST]
       """
       serializer = TransactionSerializer(data=request.data)
+      
       if serializer.is_valid() == False:
          raise ValueError('Problem with data')
+      print(serializer.data)
       data = serializer.validated_data
+      print(type(data))
       wallets = _get_wallet(data)
-      commision = _validate_commssion(wallets)
+      commission = _validate_commission(wallets)
 
       transaction = Transaction.objects.create(
             sender = wallets['wallet_sender'],
             reciever = wallets['wallet_reciever'],
             transfer_amount = data['transfer_amount'],
-            commision = Decimal(commision),
+            commission = Decimal(commission),
         )
       
       transaction.save()
@@ -37,7 +43,7 @@ class TransactionAPIView(views.APIView):
       _validate_wallets_currency(wallets)
       _validate_sender_balance(wallets['wallet_sender'], data['transfer_amount'])
    
-      _make_transaction(wallets, data['transfer_amount'], commision)
+      _make_transaction(wallets, data['transfer_amount'], commission)
 
       transaction.status = 'SUCCESS'
       transaction.save()
@@ -46,13 +52,28 @@ class TransactionAPIView(views.APIView):
                         'Transaction ID:':transaction.id, 
                         'Transaction status is:': transaction.status, 
                         'Money transferd':transaction.transfer_amount, 
-                        'Commission cost:':transaction.commision*transaction.transfer_amount})
+                        'Commission cost:':transaction.transfer_amount-(transaction.commission*transaction.transfer_amount)})
+
+   def get(self, request):
+      """
+      Allows to see all current user`s transactions
+      http://127.0.0.1:8000/make_transaction [GET]
+      """
+      wallets = Wallet.objects.filter(user=request.user)
+      queryset = Q()
+      for i in range(0, len(wallets)):
+         queryset.add(Q(sender=wallets[i]), Q.OR)
+         
+      transactions = Transaction.objects.filter(queryset)
+      serializer = TransactionSerializer(transactions, many=True)
+      return Response({'All user`s transactions':serializer.data})
+
+      
 
 def _get_wallet(data: OrderedDict):
    """
-   Gets two wallets frpm request.data: sender wallet and reciever wallet
+   Gets two wallets from request.data: sender wallet and reciever wallet
    """
-
    sender = data['sender']
    reciever = data['reciever']
    print('Sender adress:', sender)
@@ -61,7 +82,7 @@ def _get_wallet(data: OrderedDict):
       wallet_reciever = Wallet.objects.get(uid=reciever)
       return {'wallet_sender': wallet_sender, 'wallet_reciever': wallet_reciever}
    except ObjectDoesNotExist:
-      raise ObjectDoesNotExist
+      raise ObjectDoesNotExist('Wallet doesnt exist')
 
 def _validate_wallets_currency(wallets):
    """
@@ -82,7 +103,7 @@ def _validate_sender_balance(wallet, transfer_amount):
       raise ValueError('Not enough money!!!!!!!!!')
 
 
-def _validate_commssion(wallets):
+def _validate_commission(wallets):
    """
    Checking owner of sender and reciever wallets: 
    if wallet owner = reciever -> 0% commission
@@ -93,7 +114,7 @@ def _validate_commssion(wallets):
    if sender.user == reciever.user:
       return Decimal(1.00)
    else:
-      return Decimal(0.10)
+      return Decimal(0.90)
 
 
 def _make_transaction(wallets, transfer_amount, commission):
@@ -116,6 +137,23 @@ def _make_transaction(wallets, transfer_amount, commission):
    sender.save()
    reciever.save()
 
+@api_view(['GET'])
+def transactions_by_wallet(request, wallet_adress):
+    """
+    http://127.0.0.1:8000/wallets/transactions/(wallet_adress) to see all wallet`s transactions
+    """
+    wallet = Wallet.objects.get(uid=wallet_adress)
+    transactions = Transaction.objects.filter(Q(sender=wallet) | Q(reciever=wallet))
+    serializer = TransactionSerializer(transactions, many=True)
+    return Response({'All wallet`s transactions':serializer.data})
 
+@api_view(['GET'])
+def transaction_by_id(request, id):
+   """
+   http://127.0.0.1:8000/transactions/(id transaction) to see data of transaction
+   """
+   transaction = Transaction.objects.filter(id=id)
+   serializer =  TransactionSerializer(transaction, many=True)
+   return Response({'Transaction':serializer.data})
    
 

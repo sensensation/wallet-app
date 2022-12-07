@@ -16,5 +16,5 @@ class Transaction(models.Model):
    reciever = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name='reciever')
    transfer_amount = models.DecimalField(max_digits=12, decimal_places=2)
    timestamp = models.DateTimeField(auto_now_add=True)
-   commision = models.DecimalField(max_digits=12, decimal_places=2)
+   commission = models.DecimalField(max_digits=12, decimal_places=2)
    status = models.CharField(max_length=200, null=True, choices=STATUS.choices,default=STATUS.PENDING)
