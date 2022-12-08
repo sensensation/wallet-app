@@ -11,7 +11,7 @@ class Wallet(models.Model):
 
     CARDS_TYPE_CHOICE = (
         ("VISA", 1),
-        ("MasterCard", 2),
+        ("Mastercard", 2),
     )
 
     CURRENCY_CHOICE = (

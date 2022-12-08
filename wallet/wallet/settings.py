@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "transactions",
     "rest_framework",
     'rest_framework_simplejwt',
+    'tests',
 ]
 
 MIDDLEWARE = [
