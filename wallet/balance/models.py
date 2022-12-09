@@ -28,3 +28,6 @@ class Wallet(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
 
     balance = models.DecimalField(max_digits=20, decimal_places=2, default=0)
+
+    class Meta:
+        db_table = "wallets"

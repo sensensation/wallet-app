@@ -9,17 +9,17 @@ from typing import OrderedDict, Dict
 
 
 class WalletViewSet(viewsets.ModelViewSet):
-   # """
-   # #      Creates a new wallet while common value of wallets concrete user bellow 5
-   # #      Сделать здесь:
-   # #      - Вьюхи на миксинах перенести в класс [DONE]
-   # #      - кастомные методы написать [DONE]
-   # #      - удаление сделать через миксин [DONE]
-   # #      - удаление wallets_amount перенести в сериалайзер [DONE]
-   # #      - сериалайзер: использовать model serializer
-   # #      - create в сериалайзере [DONE]
-   # #      - days left: +5
-   # #      """
+    """
+      Creates a new wallet while common value of wallets concrete user bellow 5
+      Сделать здесь:
+      - Вьюхи на миксинах перенести в класс [DONE]
+      - кастомные методы написать [DONE]
+      - удаление сделать через миксин [DONE]
+      - удаление wallets_amount перенести в сериалайзер [DONE]
+      - сериалайзер: использовать model serializer
+      - create в сериалайзере [DONE]
+      - days left: +5
+    """
     serializer_class = WalletSerializer
     permission_classes = [IsAuthenticated]
     

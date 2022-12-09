@@ -22,10 +22,9 @@ class TransactionAPIView(views.APIView):
         http://127.0.0.1:8000/make_transaction [POST]
         """
         serializer = TransactionSerializer(data=request.data)
-
         if serializer.is_valid() == False:
             raise ValueError("Problem with data")
-
+        serializer.is_valid()
         data = serializer.validated_data
         wallets = _get_wallet(data)
         commission = _validate_commission(wallets)
@@ -82,10 +81,9 @@ def _get_wallet(data: OrderedDict) -> Dict:
     """
     sender = data["sender"]
     reciever = data["reciever"]
-
     try:
-        wallet_sender = Wallet.objects.get(uid=sender)
-        wallet_reciever = Wallet.objects.get(uid=reciever)
+        wallet_sender = Wallet.objects.get(uid=sender.uid)
+        wallet_reciever = Wallet.objects.get(uid=reciever.uid)
         return {"wallet_sender": wallet_sender, "wallet_reciever": wallet_reciever}
     except ObjectDoesNotExist:
         raise ObjectDoesNotExist("Wallet doesnt exist")

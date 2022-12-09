@@ -6,47 +6,34 @@ client = APIClient()
 
 
 @pytest.mark.django_db
-def test_register_user():
+def test_register_user(user_data_fixture):
    """
    User registration behavior verification
    """
-   payload = {
-            # 'id':1,
-            'password':'bebrauser',
-            'email':'test_email@gmail.com',
-            'first_name':'test',
-            'last_name':'user',
-            'date_of_birth':'2000-01-01'
-         }
    url = 'http://127.0.0.1:8000/register/'
    
-   response = client.post(url, payload)
+   response = client.post(url, user_data_fixture)
    
    data = response.data 
    
-   assert data['first_name'] == payload['first_name']
-   assert data['email'] == payload['email']
-   assert data['last_name'] == payload['last_name']
-   assert data['date_of_birth'] == payload['date_of_birth']
+   assert data['first_name'] == user_data_fixture['first_name']
+   assert data['email'] == user_data_fixture['email']
+   assert data['last_name'] == user_data_fixture['last_name']
+   assert data['date_of_birth'] == user_data_fixture['date_of_birth']
    assert "password" in data
    
+   
 @pytest.mark.django_db
-def test_jwt_login_user(user_data_fixture):
+def test_jwt_login_user(user_login):
    """
    Checking back response for JWT sucsess logining
    """
-   reg_url = 'http://127.0.0.1:8000/register/'
-   client.post(reg_url, user_data_fixture)
-   
-   login_url = 'http://127.0.0.1:8000/api/token/'
-   response = client.post(login_url, 
-                          dict(email=user_data_fixture['email'], 
-                               password=user_data_fixture['password']))
-   
-   assert response.status_code == 200
+   assert user_login.status_code == 200
+   assert 'access' in user_login.data 
+   assert 'refresh' in user_login.data 
    
 @pytest.mark.django_db
-def test_jwt_login_user_fail():
+def test_jwt_login_user_fail(user_data_fixture):
    """
    Checking reaction on incorrect login data
    """
