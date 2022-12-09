@@ -20,7 +20,7 @@ class CustomUser(AbstractUser, PermissionsMixin):
     first_name = models.CharField(_("first name"), max_length=150, blank=False)
     last_name = models.CharField(_("last name"), max_length=150, blank=False)
     date_of_birth = models.DateField(_("date of birth"), max_length=150, blank=False)
-    wallets_amount = models.IntegerField(_("wallets_amount"), default=0)
+   #  wallets_amount = models.IntegerField(_("wallets_amount"), default=0)
 
     objects = CustomUserManager()
 
