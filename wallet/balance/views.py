@@ -11,6 +11,10 @@ from typing import OrderedDict, Dict
 class WalletViewSet(viewsets.ModelViewSet):
     serializer_class = WalletSerializer
     permission_classes = [IsAuthenticated]
+    
+    # def get_serializer_class():
+    #     if self.action == 'list':
+    #         return 1 #вернуть сериалайзер для листа
 
     def get_queryset(self) -> Dict:
         if self.request.method == "GET":
@@ -21,6 +25,14 @@ class WalletViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs) -> OrderedDict:
         """
         Creates a new wallet while common value of wallets concrete user bellow 5
+        Сделать здесь:
+        - Вьюхи на миксинах перенести в класс
+        - кастомные методы написать 
+        - удаление сделать через миксин 
+        - удаление wallets_amount перенести в сериалайзер
+        - сериалайзер: использовать model serializer
+        - create в сериалайзере
+        - days left: +5
         """
         serializer = self.get_serializer(data=request.data)
 
