@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from typing import Dict
 from .models import CustomUser
-
+from rest_framework import mixins
 
 @api_view(["POST"])
 def register(request) -> Dict:
@@ -19,7 +19,7 @@ def register(request) -> Dict:
         return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UserAPIList(generics.ListCreateAPIView):
+class UserAPIList(generics.ListAPIView):
     """
     Use GET http://127.0.0.1:8000/account/api/userlist/ to see all users
     """
