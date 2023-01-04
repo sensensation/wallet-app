@@ -1,0 +1,107 @@
+[33mcommit 5158a1fc46eb0fb0298cc0b297681d6e05f02612[m[33m ([m[1;36mHEAD -> [m[1;32mbalance[m[33m, [m[1;31morigin/balance[m[33m)[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Sun Dec 11 15:05:11 2022 +0300
+
+    Ver 3.5c - balance app tests added
+
+[33mcommit 6b428e8d839fa4616bff1731816e1ba1ccf63e40[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Fri Dec 9 17:19:59 2022 +0300
+
+    Ver 3.5c - Test covering
+
+[33mcommit aeead323571519f329a57c5d249f1bc87054e1ef[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Fri Dec 9 12:44:16 2022 +0300
+
+    Ver 3.5b - Refactoring balance.app
+
+[33mcommit 179e3799115e76ed5dc84198f0ab5682e6819df7[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Fri Dec 9 09:17:47 2022 +0300
+
+    Ver 3.5 release - stable version
+
+[33mcommit 517354212728a17e7b70340b989abcd1b068a2f7[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Thu Dec 8 16:37:32 2022 +0300
+
+    Ver 3.3 release - account app test covering
+
+[33mcommit 61a2862051beaad9be64fd0d015bf7ff6963df3e[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Wed Dec 7 16:09:09 2022 +0300
+
+    Ver 3.2 release - final version: annotations added, formatted, bugs fixed
+
+[33mcommit 64217b6980908e8bf25667c5b20dbeda11316e21[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Wed Dec 7 14:24:58 2022 +0300
+
+    Ver 3.1 realese - Transactions + bug fix. Stable version
+
+[33mcommit e84a8abac0b5ca474f78f7fb392a88fc24ac2708[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Wed Dec 7 11:59:41 2022 +0300
+
+    Ver 3.0 realese - Transactions update
+
+[33mcommit e875303fd66c8bff206986b071c7c33e172be76a[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Tue Dec 6 15:54:58 2022 +0300
+
+    Ver 2.4 beta - all methods of wallets was made
+
+[33mcommit 82fa605793829afe5d3162217c15f20a57197474[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Tue Dec 6 10:20:34 2022 +0300
+
+    Ver 2.3 beta - auto add user by token + refactoring some strings
+
+[33mcommit 55efef3eaf6831f29152e8a0d8b5e1863eb4bfe6[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Tue Dec 6 09:27:17 2022 +0300
+
+    Ver 2.2 beta - works + refactor views.py in balance app
+
+[33mcommit 11ba4aac3b4548312bf08bb0707c68058f7e53e4[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Tue Dec 6 09:23:14 2022 +0300
+
+    Ver 2.2 beta - works
+
+[33mcommit 4809d20f578c101a857d1c466a6887ccb1b8e608[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Tue Dec 6 09:06:20 2022 +0300
+
+    Ver 2.1 beta - refactoring balance/views.py
+
+[33mcommit 812eeca9df6a6d620e9d1167fab239b832bdc70b[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Mon Dec 5 15:52:13 2022 +0300
+
+    Ver 2.0 beta - wallet gift by currency and etc
+
+[33mcommit 2b29fb5e41893c119f1f68272b3f9faf937a57cf[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Mon Dec 5 14:30:34 2022 +0300
+
+    Ver 2.0 alpha - money can be gifted by currency, UID in upper case in wallet
+
+[33mcommit 5ccbbe6b89589f30895c6df0c0b4edb5bb8f3c37[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Mon Dec 5 11:00:04 2022 +0300
+
+    Ver 1.05 alpha - create wallet added
+
+[33mcommit af223f9798441095a0162d9badf147f7524fa055[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Sat Dec 3 11:10:11 2022 +0300
+
+    Ver 2a - backup: create users, login JWT, List of users
+
+[33mcommit 6464d33e8cf5310e20c5563791059dbdeb598e96[m[33m ([m[1;31morigin/transactions[m[33m, [m[1;32mtransactions[m[33m, [m[1;32mmaster[m[33m)[m
+Author: cybersen <gashnya_official@bk.ru>
+Date:   Fri Dec 2 09:28:10 2022 +0300
+
+    Ver 1.0 alpha - just created project
