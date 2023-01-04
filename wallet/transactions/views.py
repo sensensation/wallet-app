@@ -107,7 +107,7 @@ def _validate_sender_balance(wallet: Dict, transfer_amount: Decimal) -> None:
     Validate balance, need to be more than you want to send
     """
     sender = wallet
-    if sender.balance < transfer_amount:
+    if sender.balance < transfer_amount and transfer_amount > 0:
         raise ValueError("Not enough money!!!!!!!!!")
 
 
@@ -137,14 +137,17 @@ def _make_transaction(wallets: Dict,
     sender = wallets["wallet_sender"]
     reciever = wallets["wallet_reciever"]
 
-    new_sender_balance = sender.balance - transfer_amount
-    new_reciever_balance = reciever.balance + Decimal(transfer_amount * commission)
+    if transfer_amount > 0:
+        new_sender_balance = sender.balance - transfer_amount
+        new_reciever_balance = reciever.balance + Decimal(transfer_amount * commission)
 
-    sender.balance = new_sender_balance
-    reciever.balance = new_reciever_balance
+        sender.balance = new_sender_balance
+        reciever.balance = new_reciever_balance
 
-    sender.save()
-    reciever.save()
+        sender.save()
+        reciever.save()
+    else:
+        raise ValueError("Cannot to send negative value")
 
 
 @api_view(["GET"])
