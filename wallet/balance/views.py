@@ -16,7 +16,7 @@ class WalletViewSet(viewsets.ModelViewSet):
       - кастомные методы написать [DONE]
       - удаление сделать через миксин [DONE]
       - удаление wallets_amount перенести в сериалайзер [DONE]
-      - сериалайзер: использовать model serializer
+      - сериалайзер: использовать model serializer [DONE]
       - create в сериалайзере [DONE]
       - days left: +5
     """
@@ -29,14 +29,15 @@ class WalletViewSet(viewsets.ModelViewSet):
         else:
             return Wallet.objects.filter(user=self.request.user)
         
-    @action(methods=['GET'], detail=False)
+    @action(methods=['GET'], detail=True)
     def watch_balance(self, pk: str) -> Dict:
        """
        http://127.0.0.1:8000/balance/(uid wallet) to see certain wallet`s balance by uid
        """
-       wallet = Wallet.objects.get(pk=pk)
+       wallet = Wallet.objects.select_related(pk).get(pk=pk)
        serializer = WalletSerializer(wallet)
        return Response({"wallet": serializer.data}, status=status.HTTP_200_OK)
+        
        
     @action(methods=['GET'], detail=True)
     def wallet_by_user(self, request) -> Dict:
