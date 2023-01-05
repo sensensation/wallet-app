@@ -30,12 +30,12 @@ class WalletViewSet(viewsets.ModelViewSet):
             return Wallet.objects.filter(user=self.request.user)
         
     @action(methods=['GET'], detail=True)
-    def watch_balance(self, pk: str) -> Dict:
+    def watch_balance(self, request, pk: str) -> Dict:
        """
        http://127.0.0.1:8000/balance/(uid wallet) to see certain wallet`s balance by uid
        """
-       wallet = Wallet.objects.select_related(pk).get(pk=pk)
-       serializer = WalletSerializer(wallet)
+       wallet = Wallet.objects.get(pk=pk)
+       serializer = self.serializer_class(wallet)
        return Response({"wallet": serializer.data}, status=status.HTTP_200_OK)
         
        
